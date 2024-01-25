@@ -1,5 +1,15 @@
+@php
+use Illuminate\Support\Facades\Vite;
+@endphp
+
 @extends('layouts.app')
 
+
+<style>
+    #users > li {
+        cursor: pointer;
+    }
+</style>
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -17,8 +27,6 @@
                                         class="list-unstyled overflow-auto"
                                         style="height: 45vh"
                                     >
-                                    <li>Hola</li>
-                                    <li>Mundo</li>
                                     </ul>
                                 </div>
                             </div>
@@ -49,3 +57,4 @@
     </div>
 </div>
 @endsection
+

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MessageSent as EventsMessageSent;
+use App\Events\MessageSent;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -22,10 +23,19 @@ class ChatController extends Controller
             'message'=>'required'
         ];
         $request->validate($rules);
+        broadcast(new MessageSent($request->user(), $request->message));
 
-        \Log::info($request->user());
-        \Log::info($request->message);
-        broadcast(new EventsMessageSent($request->user(), $request->message ));
         return response()->json('Message broadcast');
+    }
+
+    public function greetReceived(Request $request,User $user) {
+        // $rules = [
+        //     'message'=>'required'
+        // ];
+        // $request->validate($rules);
+        broadcast(new MessageSent($user, "{$request->user()->name} greeted you"));
+        broadcast(new MessageSent($request->user(),"you greeted {$user->name}"));
+
+        return "Greeting {$user->name} from {$request->user()->name}";
     }
 }

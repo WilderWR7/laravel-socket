@@ -15,6 +15,8 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- @vite('resources/js/app.js') --}}
+
 </head>
 <body>
     <div id="app">
@@ -80,9 +82,6 @@
             @yield('content')
         </main>
     </div>
-
-    <script src="{{ asset('js/app.js') }}"></script>
-    @stack('scripts')
 
 </body>
 </html>

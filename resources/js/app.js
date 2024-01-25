@@ -1,4 +1,7 @@
 import './bootstrap';
+import '../css/app.css';
+
+
 
 
 //activity User
@@ -73,13 +76,14 @@ const resultElement = document.getElementById('result');
 
     //chat
     const usersElement = document.getElementById('users');
+    const messagesElement = document.getElementById('messages');
     Echo.join('chat')
     .here((users)=> {
         users.forEach((user, index) => {
             let element = document.createElement('li');
 
             element.setAttribute('id', user.id);
-            // element.setAttribute('onclick', 'greetUser("' + user.id + '")');
+            element.setAttribute('onclick',window.axios.post('/chat/greet/'+user.id));
             element.innerText = user.name;
 
             usersElement.appendChild(element);
@@ -89,7 +93,8 @@ const resultElement = document.getElementById('result');
         let element = document.createElement('li');
 
         element.setAttribute('id', user.id);
-        // element.setAttribute('onclick', 'greetUser("' + user.id + '")');
+        element.setAttribute('onclick',window.axios.post('/chat/greet/'+user.id));
+
         element.innerText = user.name;
 
         usersElement.appendChild(element);
@@ -97,8 +102,17 @@ const resultElement = document.getElementById('result');
     .leaving((user)=> {
         let element = document.getElementById(user.id);
         element.parentNode.removeChild(element);
-    });
+    })
+    .listen('MessageSent',(e)=> {
+        let element = document.createElement('li');
 
+        element.setAttribute('id', e.user.id);
+        // element.setAttribute('onclick', 'greetUser("' + user.id + '")');
+        element.innerText = e.user.name+' : '+e.message;
+
+        messagesElement.appendChild(element);
+        }
+    );
     //send Chat
 
     const sendElement = document.getElementById('send');
@@ -111,3 +125,5 @@ const resultElement = document.getElementById('result');
         });
         messageElement.value = '';
     });
+
+
